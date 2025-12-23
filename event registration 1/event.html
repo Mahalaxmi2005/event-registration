@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMSCE Event Registration</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #ffffff;
+            --accent-color: #00f2fe;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        /* College Header Style */
+        .college-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        select option {
+            background: #4b6cb7;
+            color: white;
+        }
+
+        .fee-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .fee-amount {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s transform, 0.3s box-shadow;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 100;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.5);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .qr-code-img {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            border: 1px solid #ddd;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="college-header">BMSCE</div>
+        <h1>Event Registration</h1>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Branch</label>
+                <input type="text" id="branch" placeholder="e.g. Computer Science" required>
+            </div>
+
+            <div class="form-group">
+                <label>College Email ID</label>
+                <input type="email" id="email" placeholder="student@college.edu" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="9876543210" pattern="[0-9]{10}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Event</label>
+                <select id="eventSelect" onchange="updateFee()" required>
+                    <option value="" disabled selected>Choose an event</option>
+                    <option value="hackathon">🚀 Mega Hackathon</option>
+                    <option value="workshop">🛠️ AI/ML Workshop</option>
+                    <option value="webinar">🌐 Tech Career Webinar</option>
+                    <option value="cultural">🎨 Cultural Night</option>
+                </select>
+            </div>
+
+            <div class="fee-display">
+                Registration Fee: <span class="fee-amount" id="feeAmount">₹0</span>
+            </div>
+
+            <button type="submit">Pay & Register</button>
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div id="paymentModal" class="modal">
+        <h2 style="color: #533483;">Scan to Pay</h2>
+        <p>Please pay <b id="payAmount">₹0</b> to complete your registration.</p>
+        <img src="your-qr-code.jpg" alt="Payment QR Code" class="qr-code-img">
+        <p style="font-size: 0.8rem; color: #666;">Payee: BMSCE Events / Likhitha DM</p>
+        <button onclick="showSuccess()" style="background: #2ecc71; margin-top: 10px;">I have paid</button>
+    </div>
+
+    <div id="successMessage" class="modal">
+        <h2 style="color: #2ecc71;">🎉 Registration Successful!</h2>
+        <p id="detailsText"></p>
+        <button onclick="closeAll()" style="background: #333; margin-top: 10px;">Close</button>
+    </div>
+
+    <script>
+        const fees = {
+            'hackathon': 500,
+            'workshop': 300,
+            'webinar': 100,
+            'cultural': 200
+        };
+
+        function updateFee() {
+            const selectedEvent = document.getElementById('eventSelect').value;
+            const feeDisplay = document.getElementById('feeAmount');
+            if(fees[selectedEvent]) {
+                feeDisplay.innerText = "₹" + fees[selectedEvent];
+                document.getElementById('payAmount').innerText = "₹" + fees[selectedEvent];
+            }
+        }
+
+        // Form Submit -> Show Payment Modal
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('paymentModal').style.display = 'block';
+        });
+
+        // Payment Done -> Show Success Message
+        function showSuccess() {
+            const name = document.getElementById('name').value;
+            const eventName = document.getElementById('eventSelect').options[document.getElementById('eventSelect').selectedIndex].text;
+            
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('detailsText').innerText = `Hi ${name}, your payment is being verified. You are registered for ${eventName}!`;
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        function closeAll() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('registrationForm').reset();
+            document.getElementById('feeAmount').innerText = "₹0";
+        }
+    </script>
+</body>
+</html>
